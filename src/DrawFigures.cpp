@@ -1060,6 +1060,9 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
         std::cout << "multi_TGraphErrors is empty!" << std::endl;
         return;
     }
+    for (int i = 0; i < multi_TGraphErrors.size(); i++) {
+        multi_TGraphErrors[i]->Sort();
+    }
     multi_TGraphErrors[0]->GetXaxis()->SetLabelSize(0.05);
     multi_TGraphErrors[0]->GetXaxis()->SetTitleSize(0.05);
     multi_TGraphErrors[0]->GetXaxis()->SetTitleOffset(1.5);
@@ -1081,16 +1084,14 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
         if (i == 0) {
-            multi_TGraphErrors[i]->Draw("A*");
+            multi_TGraphErrors[i]->Draw("AL*");
         } else {
-            multi_TGraphErrors[i]->Draw("same *");
+            multi_TGraphErrors[i]->Draw("same L*");
         }
     }
     leg->Draw("same");
     c1->SaveAs(output_dir + "/" + TString(multi_TGraphErrors[0]->GetName()) + "." + output_file_type);
 }
-
-
 
 void DrawFigures::FitHistogram(TH1* hist, double xmin_for_fitting, double xmax_for_fitting)
 {
