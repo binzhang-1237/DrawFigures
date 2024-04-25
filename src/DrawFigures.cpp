@@ -1060,7 +1060,7 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
         std::cout << "multi_TGraphErrors is empty!" << std::endl;
         return;
     }
-    for (int i = 0; i < multi_TGraphErrors.size(); i++) {
+    for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
         multi_TGraphErrors[i]->Sort();
     }
     multi_TGraphErrors[0]->GetXaxis()->SetLabelSize(0.05);
@@ -1084,9 +1084,9 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
         if (i == 0) {
-            multi_TGraphErrors[i]->Draw("AL*");
+            multi_TGraphErrors[i]->Draw("AL");
         } else {
-            multi_TGraphErrors[i]->Draw("same L*");
+            multi_TGraphErrors[i]->Draw("same L");
         }
     }
     leg->Draw("same");
@@ -1166,7 +1166,7 @@ void DrawFigures::DrawMultiTH1D(std::vector<TH1D*> multi_TH1D, TLegend* leg, TSt
     }
     set_draw_options_of_hist(multi_TH1D[0]);
     TCanvas* c1 = set_draw_options_of_canvas();
-    for (int i = 0; i < multi_TH1D.size(); i++) {
+    for (size_t i = 0; i < multi_TH1D.size(); i++) {
         if (i == 0) {
             multi_TH1D[i]->Draw("E");
         } else {
