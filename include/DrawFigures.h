@@ -48,6 +48,7 @@ public:
     void DrawTH2(TH2 *h2, TString OutputDir, TString OutputFileType = "pdf", bool SetLogx = false, bool SetLogy = false, bool SetLogz = false);
     void DrawTGraph(TGraph *g, TString OutputDir, TString OutputFileType = "pdf");
     void DrawMultiTGraph(std::vector<TGraph *> multi_TGraph, TLegend *leg, TString OutputDir, TString OutputFileType = "pdf");
+    void DrawMultiTGraphErrors(std::vector<TGraphErrors *> multi_TGraphErrors, TLegend *leg, TString OutputDir, TString OutputFileType = "pdf");
     void DrawTGraphErrors(TGraphErrors *ge, TString OutputDir, TString OutputFileType = "pdf");
     void FitHistogram(TH1 *hist, double xmin_for_fitting, double xmax_for_fitting);
 

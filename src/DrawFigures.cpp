@@ -1054,6 +1054,44 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     c1->SaveAs(output_dir + "/" + TString(multi_TGraph[0]->GetName()) + "." + output_file_type);
 }
 
+void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphErrors, TLegend* leg, TString output_dir, TString output_file_type)
+{
+    if (multi_TGraphErrors.size() == 0) {
+        std::cout << "multi_TGraphErrors is empty!" << std::endl;
+        return;
+    }
+    multi_TGraphErrors[0]->GetXaxis()->SetLabelSize(0.05);
+    multi_TGraphErrors[0]->GetXaxis()->SetTitleSize(0.05);
+    multi_TGraphErrors[0]->GetXaxis()->SetTitleOffset(1.5);
+    multi_TGraphErrors[0]->GetYaxis()->SetLabelSize(0.05);
+    multi_TGraphErrors[0]->GetYaxis()->SetTitleSize(0.05);
+    multi_TGraphErrors[0]->GetYaxis()->SetTitleOffset(1.2);
+    multi_TGraphErrors[0]->GetYaxis()->CenterTitle(true);
+    multi_TGraphErrors[0]->GetXaxis()->CenterTitle(true);
+    multi_TGraphErrors[0]->SetLineWidth(2);
+    TCanvas* c1 = new TCanvas();
+    // gPad->SetLogy();
+    // gPad->SetLogx();
+    // h1->GetYaxis()->SetMoreLogLabels();
+    gStyle->SetStripDecimals(0); // set number of digits of label same.
+    Double_t MarginRatio = 0.15;
+    c1->SetBottomMargin(MarginRatio);
+    c1->SetTopMargin(MarginRatio);
+    c1->SetRightMargin(MarginRatio);
+    c1->SetLeftMargin(MarginRatio);
+    for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
+        if (i == 0) {
+            multi_TGraphErrors[i]->Draw("AL*");
+        } else {
+            multi_TGraphErrors[i]->Draw("same L*");
+        }
+    }
+    leg->Draw("same");
+    c1->SaveAs(output_dir + "/" + TString(multi_TGraphErrors[0]->GetName()) + "." + output_file_type);
+}
+
+
+
 void DrawFigures::FitHistogram(TH1* hist, double xmin_for_fitting, double xmax_for_fitting)
 {
     if (xmin_for_fitting == 0 && xmax_for_fitting == 0) // defalt range for fitting:
