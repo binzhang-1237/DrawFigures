@@ -1081,9 +1081,9 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
         if (i == 0) {
-            multi_TGraphErrors[i]->Draw("AL*");
+            multi_TGraphErrors[i]->Draw("A*");
         } else {
-            multi_TGraphErrors[i]->Draw("same L*");
+            multi_TGraphErrors[i]->Draw("same *");
         }
     }
     leg->Draw("same");
