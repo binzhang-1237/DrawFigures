@@ -1073,6 +1073,7 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     multi_TGraphErrors[0]->GetXaxis()->CenterTitle(true);
     multi_TGraphErrors[0]->SetLineWidth(2);
     TCanvas* c1 = new TCanvas();
+    c1->SetGrid();
     // gPad->SetLogy();
     // gPad->SetLogx();
     // h1->GetYaxis()->SetMoreLogLabels();
@@ -1083,10 +1084,11 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     c1->SetRightMargin(MarginRatio);
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
+        multi_TGraphErrors[i]->SetMarkerStyle(20+i);
         if (i == 0) {
-            multi_TGraphErrors[i]->Draw("AL");
+            multi_TGraphErrors[i]->Draw("ALP");
         } else {
-            multi_TGraphErrors[i]->Draw("same L");
+            multi_TGraphErrors[i]->Draw("same LP");
         }
     }
     leg->Draw("same");
