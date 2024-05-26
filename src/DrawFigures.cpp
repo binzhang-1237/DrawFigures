@@ -796,6 +796,7 @@ void DrawFigures::DrawTH1(TH1* h1, TString output_dir, TString output_file_type)
     h1->Draw("E");
 
     c1->SaveAs(output_dir + "/" + TString(h1->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString output_dir, TString output_file_type)
@@ -832,6 +833,7 @@ void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TStrin
     }
     leg->Draw("same");
     c1->SaveAs(output_dir + "/" + TString(multi_TH1[0]->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TString output_dir, TString output_file_type, TString ratio_or_difference, bool fit_with_linear_function, double xmin_for_fitting, double xmax_for_fitting)
@@ -919,6 +921,7 @@ void DrawFigures::DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TStr
     c1->cd();
 
     c1->SaveAs(output_dir + "/" + TString(h1->GetName()) + "." + output_file_type);
+    delete c1, c1_n4_1, c1_n4_3;
 }
 
 void DrawFigures::DrawTH2(TH2* h2, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy, bool SetLogz)
@@ -953,6 +956,7 @@ void DrawFigures::DrawTH2(TH2* h2, TString output_dir, TString output_file_type,
     c1->SetLeftMargin(MarginRatio);
     h2->Draw("colz");
     c1->SaveAs(output_dir + "/" + TString(h2->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_type)
@@ -985,6 +989,7 @@ void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_
     // g->Draw("ALP");
     g->Draw("AL");
     c1->SaveAs(output_dir + "/" + TString(g->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawTGraphErrors(TGraphErrors* ge, TString output_dir, TString output_file_type)
@@ -1016,6 +1021,7 @@ void DrawFigures::DrawTGraphErrors(TGraphErrors* ge, TString output_dir, TString
     c1->SetLeftMargin(MarginRatio);
     ge->Draw("AL");
     c1->SaveAs(output_dir + "/" + TString(ge->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type)
@@ -1052,6 +1058,7 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     }
     leg->Draw("same");
     c1->SaveAs(output_dir + "/" + TString(multi_TGraph[0]->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphErrors, TLegend* leg, TString output_dir, TString output_file_type)
@@ -1093,6 +1100,7 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     }
     leg->Draw("same");
     c1->SaveAs(output_dir + "/" + TString(multi_TGraphErrors[0]->GetName()) + "." + output_file_type);
+    delete c1;
 }
 
 void DrawFigures::FitHistogram(TH1* hist, double xmin_for_fitting, double xmax_for_fitting)
@@ -1112,6 +1120,7 @@ void DrawFigures::FitHistogram(TH1* hist, double xmin_for_fitting, double xmax_f
     double slopeError = lineFit->GetParError(1);
 
     cout << "The fitted slope: " << slope << " +/- " << slopeError << endl;
+    delete lineFit;
 }
 
 //from DrawFigures_new_from_bat.cpp:
