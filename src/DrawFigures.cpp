@@ -921,7 +921,9 @@ void DrawFigures::DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TStr
     c1->cd();
 
     c1->SaveAs(output_dir + "/" + TString(h1->GetName()) + "." + output_file_type);
-    delete c1, c1_n4_1, c1_n4_3;
+    delete c1;
+    delete c1_n4_1;
+    delete c1_n4_3;
 }
 
 void DrawFigures::DrawTH2(TH2* h2, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy, bool SetLogz)
