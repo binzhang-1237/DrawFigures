@@ -980,8 +980,9 @@ void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_
     if (SetLogy)
         gPad->SetLogy();
     if (SetLogx)
-        gPad->SetLogx();    
+        gPad->SetLogx();
     gStyle->SetStripDecimals(0); // set number of digits of label same.
+    gPad->SetGrid();
     // gStyle->SetMaxDigitsY(2);
     Double_t MarginRatio = 0.15;
     // ge->GetYaxis()->SetMaxDigits(1.1);
@@ -1095,7 +1096,7 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
     c1->SetRightMargin(MarginRatio);
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraphErrors.size(); i++) {
-        multi_TGraphErrors[i]->SetMarkerStyle(20+i);
+        multi_TGraphErrors[i]->SetMarkerStyle(20 + i);
         if (i == 0) {
             multi_TGraphErrors[i]->Draw("ALP");
         } else {
