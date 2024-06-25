@@ -291,7 +291,7 @@ void DrawFigures::DrawTGraphErrors(TGraphErrors* ge, TString output_dir, TString
     delete c1;
 }
 
-void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type)
+void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
     if (multi_TGraph.size() == 0) {
         std::cout << "multi_TGraph is empty!" << std::endl;
@@ -307,8 +307,10 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     multi_TGraph[0]->GetXaxis()->CenterTitle(true);
     multi_TGraph[0]->SetLineWidth(2);
     TCanvas* c1 = new TCanvas();
-    // gPad->SetLogy();
-    // gPad->SetLogx();
+    if (SetLogy)
+        gPad->SetLogy();
+    if (SetLogx)
+        gPad->SetLogx();
     // h1->GetYaxis()->SetMoreLogLabels();
     gStyle->SetStripDecimals(0); // set number of digits of label same.
     Double_t MarginRatio = 0.15;
@@ -318,9 +320,9 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraph.size(); i++) {
         if (i == 0) {
-            multi_TGraph[i]->Draw("AL*");
+            multi_TGraph[i]->Draw("AL");
         } else {
-            multi_TGraph[i]->Draw("same L*");
+            multi_TGraph[i]->Draw("same L");
         }
     }
     leg->Draw("same");
