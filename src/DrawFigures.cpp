@@ -961,7 +961,7 @@ void DrawFigures::DrawTH2(TH2* h2, TString output_dir, TString output_file_type,
     delete c1;
 }
 
-void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_type)
+void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
     g->GetXaxis()->SetLabelSize(0.05);
     g->GetXaxis()->SetTitleSize(0.05);
@@ -977,8 +977,10 @@ void DrawFigures::DrawTGraph(TGraph* g, TString output_dir, TString output_file_
     g->SetMarkerStyle(21);
 
     TCanvas* c1 = new TCanvas();
-    // gPad->SetLogy();
-    // h1->GetYaxis()->SetMoreLogLabels();
+    if (SetLogy)
+        gPad->SetLogy();
+    if (SetLogx)
+        gPad->SetLogx();    
     gStyle->SetStripDecimals(0); // set number of digits of label same.
     // gStyle->SetMaxDigitsY(2);
     Double_t MarginRatio = 0.15;

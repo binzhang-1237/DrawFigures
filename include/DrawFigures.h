@@ -45,7 +45,7 @@ public:
     void DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString OutputDir, TString OutputFileType = "pdf");
     void DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TString OutputDir, TString OutputFileType = "pdf", TString ratio_or_difference = "ratio", bool fit_with_linear_function = false, double xmin_for_fittin = 0., double xmax_for_fitting = 0.);
     void DrawTH2(TH2* h2, TString OutputDir, TString OutputFileType = "pdf", bool SetLogx = false, bool SetLogy = false, bool SetLogz = false);
-    void DrawTGraph(TGraph* g, TString OutputDir, TString OutputFileType = "pdf");
+    void DrawTGraph(TGraph* g, TString OutputDir, TString OutputFileType = "pdf", bool SetLogx = false, bool SetLogy = false);
     void DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString OutputDir, TString OutputFileType = "pdf");
     void DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphErrors, TLegend* leg, TString OutputDir, TString OutputFileType = "pdf");
     void DrawTGraphErrors(TGraphErrors* ge, TString OutputDir, TString OutputFileType = "pdf");
