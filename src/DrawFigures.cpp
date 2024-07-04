@@ -319,6 +319,7 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     c1->SetRightMargin(MarginRatio);
     c1->SetLeftMargin(MarginRatio);
     for (size_t i = 0; i < multi_TGraph.size(); i++) {
+        multi_TGraph[i]->SetMarkerStyle(20 + i);
         if (i == 0) {
             multi_TGraph[i]->Draw("AL");
         } else {
