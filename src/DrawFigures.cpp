@@ -61,133 +61,6 @@ void DrawFigures::DrawTH1(TH1* h1, TString output_dir, TString output_file_type)
     delete c1;
 }
 
-void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString output_dir, TString output_file_type)
-{
-    if (multi_TH1.size() == 0) {
-        std::cout << "multi_TH1 is empty!" << std::endl;
-        return;
-    }
-    multi_TH1[0]->GetXaxis()->SetLabelSize(0.05);
-    multi_TH1[0]->GetXaxis()->SetTitleSize(0.05);
-    multi_TH1[0]->GetXaxis()->SetTitleOffset(1.5);
-    multi_TH1[0]->GetYaxis()->SetLabelSize(0.05);
-    multi_TH1[0]->GetYaxis()->SetTitleSize(0.05);
-    multi_TH1[0]->GetYaxis()->SetTitleOffset(1.2);
-    multi_TH1[0]->GetYaxis()->CenterTitle(true);
-    multi_TH1[0]->GetXaxis()->CenterTitle(true);
-    multi_TH1[0]->SetLineWidth(2);
-    TCanvas* c1 = new TCanvas();
-    // gPad->SetLogy();
-    // gPad->SetLogx();
-    // h1->GetYaxis()->SetMoreLogLabels();
-    gStyle->SetStripDecimals(0); // set number of digits of label same.
-    Double_t MarginRatio = 0.15;
-    c1->SetBottomMargin(MarginRatio);
-    c1->SetTopMargin(MarginRatio);
-    c1->SetRightMargin(MarginRatio);
-    c1->SetLeftMargin(MarginRatio);
-    for (size_t i = 0; i < multi_TH1.size(); i++) {
-        if (i == 0) {
-            multi_TH1[i]->Draw("E");
-        } else {
-            multi_TH1[i]->Draw("same");
-        }
-    }
-    leg->Draw("same");
-    c1->SaveAs(output_dir + "/" + TString(multi_TH1[0]->GetName()) + "." + output_file_type);
-    delete c1;
-}
-
-void DrawFigures::DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TString output_dir, TString output_file_type, TString ratio_or_difference, bool fit_with_linear_function, double xmin_for_fitting, double xmax_for_fitting)
-{
-    if (ratio_or_difference != "ratio" && ratio_or_difference != "difference") {
-        cout << "DrawFigures::DrawRatioOrDifferencePlot():" << endl;
-        cout << "wrong ratio_or_difference!!! : " << ratio_or_difference << endl;
-        return;
-    }
-    // cout << "h1->Integral() = " << h1->Integral() << endl;
-    h1->GetXaxis()->SetLabelSize(0.05);
-    h1->GetXaxis()->SetTitleSize(0.05);
-    h1->GetXaxis()->SetTitleOffset(1.5);
-    h1->GetYaxis()->SetLabelSize(0.05);
-    h1->GetYaxis()->SetTitleSize(0.05);
-    h1->GetYaxis()->SetTitleOffset(1.2);
-    h1->GetYaxis()->CenterTitle(true);
-    h1->GetXaxis()->CenterTitle(true);
-    h1->SetLineColor(kBlack);
-    h1->SetLineWidth(2);
-
-    TCanvas* c1 = new TCanvas();
-    c1->SetCanvasSize(800, 600);
-    // gPad->SetLogy();
-    // gPad->SetLogx();
-    // h1->GetYaxis()->SetMoreLogLabels();
-    gStyle->SetStripDecimals(0); // set number of digits of label same.
-    Double_t MarginRatio = 0.10;
-    c1->SetBottomMargin(MarginRatio);
-    c1->SetTopMargin(MarginRatio);
-    c1->SetRightMargin(MarginRatio);
-    c1->SetLeftMargin(MarginRatio);
-    TPad* c1_n4_1 = new TPad("c1_n4_1", "c1_n4_1", 0.01, 0.51, 0.49, 0.99);
-    c1_n4_1->Draw();
-    c1_n4_1->cd();
-    c1_n4_1->Range(-15.05104, -451.1246, 89.96149, 2425.978);
-    c1_n4_1->SetFillColor(0);
-    c1_n4_1->SetBorderMode(0);
-    c1_n4_1->SetBorderSize(2);
-    c1_n4_1->SetLeftMargin(0.1433262);
-    c1_n4_1->SetRightMargin(0.05676934);
-    c1_n4_1->SetTopMargin(0.04495614);
-    c1_n4_1->SetBottomMargin(0.1567982);
-    c1_n4_1->SetFrameBorderMode(0);
-    c1_n4_1->SetFrameBorderMode(0);
-
-    h1->Draw("E");
-    h2->Draw("same");
-    leg->Draw("same");
-    c1->cd();
-
-    TPad* c1_n4_3 = new TPad("c1_n4_3", "c1_n4_3", 0.01, 0.01, 0.49, 0.49);
-    c1_n4_3->Draw();
-    c1_n4_3->cd();
-    c1_n4_3->Range(-14.42418, -0.4067308, 90.58836, 2.224038);
-    c1_n4_3->SetFillColor(0);
-    c1_n4_3->SetBorderMode(0);
-    c1_n4_3->SetBorderSize(2);
-    c1_n4_3->SetLeftMargin(0.1373567);
-    c1_n4_3->SetRightMargin(0.06273878);
-    c1_n4_3->SetTopMargin(0.04714912);
-    c1_n4_3->SetBottomMargin(0.1546053);
-    c1_n4_3->SetFrameBorderMode(0);
-    c1_n4_3->SetFrameBorderMode(0);
-
-    TH1* cloneHist = (TH1*)h1->Clone("cloneHist");
-    cloneHist->Sumw2();                 // to make a correct uncertainty calculation.
-    if (ratio_or_difference == "ratio") // ratio histogram:
-    {
-        cloneHist->Divide(h1, h2);
-        cloneHist->GetYaxis()->SetTitle("ratio");
-        cloneHist->SetMinimum(0.);
-        cloneHist->SetMaximum(2.);
-    } else // if(ratio_or_difference == "difference"), difference histogram
-    {
-        cloneHist->Add(h1, h2, 1., -1.);
-        cloneHist->GetYaxis()->SetTitle("difference");
-    }
-    cloneHist->SetStats(false);
-    if (fit_with_linear_function) {
-        FitHistogram(cloneHist, xmin_for_fitting, xmax_for_fitting);
-    }
-    cloneHist->Draw("E");
-    c1_n4_3->Modified();
-    c1->cd();
-
-    c1->SaveAs(output_dir + "/" + TString(h1->GetName()) + "." + output_file_type);
-    delete c1;
-    delete c1_n4_1;
-    delete c1_n4_3;
-}
-
 void DrawFigures::DrawTH2(TH2* h2, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy, bool SetLogz)
 {
     // cout << "h2->Integral() = " << h2->Integral() << endl;
@@ -290,6 +163,44 @@ void DrawFigures::DrawTGraphErrors(TGraphErrors* ge, TString output_dir, TString
     c1->SaveAs(output_dir + "/" + TString(ge->GetName()) + "." + output_file_type);
     delete c1;
 }
+
+void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString output_dir, TString output_file_type)
+{
+    if (multi_TH1.size() == 0) {
+        std::cout << "multi_TH1 is empty!" << std::endl;
+        return;
+    }
+    multi_TH1[0]->GetXaxis()->SetLabelSize(0.05);
+    multi_TH1[0]->GetXaxis()->SetTitleSize(0.05);
+    multi_TH1[0]->GetXaxis()->SetTitleOffset(1.5);
+    multi_TH1[0]->GetYaxis()->SetLabelSize(0.05);
+    multi_TH1[0]->GetYaxis()->SetTitleSize(0.05);
+    multi_TH1[0]->GetYaxis()->SetTitleOffset(1.2);
+    multi_TH1[0]->GetYaxis()->CenterTitle(true);
+    multi_TH1[0]->GetXaxis()->CenterTitle(true);
+    multi_TH1[0]->SetLineWidth(2);
+    TCanvas* c1 = new TCanvas();
+    // gPad->SetLogy();
+    // gPad->SetLogx();
+    // h1->GetYaxis()->SetMoreLogLabels();
+    gStyle->SetStripDecimals(0); // set number of digits of label same.
+    Double_t MarginRatio = 0.15;
+    c1->SetBottomMargin(MarginRatio);
+    c1->SetTopMargin(MarginRatio);
+    c1->SetRightMargin(MarginRatio);
+    c1->SetLeftMargin(MarginRatio);
+    for (size_t i = 0; i < multi_TH1.size(); i++) {
+        if (i == 0) {
+            multi_TH1[i]->Draw("E");
+        } else {
+            multi_TH1[i]->Draw("same");
+        }
+    }
+    leg->Draw("same");
+    c1->SaveAs(output_dir + "/" + TString(multi_TH1[0]->GetName()) + "." + output_file_type);
+    delete c1;
+}
+
 
 void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
@@ -439,4 +350,94 @@ void DrawFigures::DrawTH2D(TH2D* h2, TString OutputFileName, bool SetLogx, bool 
     h2->Draw("colz");
     c1->SaveAs(OutputFileName);
     delete c1;
+}
+
+void DrawFigures::DrawRatioOrDifferencePlot(TH1* h1, TH1* h2, TLegend* leg, TString output_dir, TString output_file_type, TString ratio_or_difference, bool fit_with_linear_function, double xmin_for_fitting, double xmax_for_fitting)
+{
+    if (ratio_or_difference != "ratio" && ratio_or_difference != "difference") {
+        cout << "DrawFigures::DrawRatioOrDifferencePlot():" << endl;
+        cout << "wrong ratio_or_difference!!! : " << ratio_or_difference << endl;
+        return;
+    }
+    // cout << "h1->Integral() = " << h1->Integral() << endl;
+    h1->GetXaxis()->SetLabelSize(0.05);
+    h1->GetXaxis()->SetTitleSize(0.05);
+    h1->GetXaxis()->SetTitleOffset(1.5);
+    h1->GetYaxis()->SetLabelSize(0.05);
+    h1->GetYaxis()->SetTitleSize(0.05);
+    h1->GetYaxis()->SetTitleOffset(1.2);
+    h1->GetYaxis()->CenterTitle(true);
+    h1->GetXaxis()->CenterTitle(true);
+    h1->SetLineColor(kBlack);
+    h1->SetLineWidth(2);
+
+    TCanvas* c1 = new TCanvas();
+    c1->SetCanvasSize(800, 600);
+    // gPad->SetLogy();
+    // gPad->SetLogx();
+    // h1->GetYaxis()->SetMoreLogLabels();
+    gStyle->SetStripDecimals(0); // set number of digits of label same.
+    Double_t MarginRatio = 0.10;
+    c1->SetBottomMargin(MarginRatio);
+    c1->SetTopMargin(MarginRatio);
+    c1->SetRightMargin(MarginRatio);
+    c1->SetLeftMargin(MarginRatio);
+    TPad* c1_n4_1 = new TPad("c1_n4_1", "c1_n4_1", 0.01, 0.51, 0.49, 0.99);
+    c1_n4_1->Draw();
+    c1_n4_1->cd();
+    c1_n4_1->Range(-15.05104, -451.1246, 89.96149, 2425.978);
+    c1_n4_1->SetFillColor(0);
+    c1_n4_1->SetBorderMode(0);
+    c1_n4_1->SetBorderSize(2);
+    c1_n4_1->SetLeftMargin(0.1433262);
+    c1_n4_1->SetRightMargin(0.05676934);
+    c1_n4_1->SetTopMargin(0.04495614);
+    c1_n4_1->SetBottomMargin(0.1567982);
+    c1_n4_1->SetFrameBorderMode(0);
+    c1_n4_1->SetFrameBorderMode(0);
+
+    h1->Draw("E");
+    h2->Draw("same");
+    leg->Draw("same");
+    c1->cd();
+
+    TPad* c1_n4_3 = new TPad("c1_n4_3", "c1_n4_3", 0.01, 0.01, 0.49, 0.49);
+    c1_n4_3->Draw();
+    c1_n4_3->cd();
+    c1_n4_3->Range(-14.42418, -0.4067308, 90.58836, 2.224038);
+    c1_n4_3->SetFillColor(0);
+    c1_n4_3->SetBorderMode(0);
+    c1_n4_3->SetBorderSize(2);
+    c1_n4_3->SetLeftMargin(0.1373567);
+    c1_n4_3->SetRightMargin(0.06273878);
+    c1_n4_3->SetTopMargin(0.04714912);
+    c1_n4_3->SetBottomMargin(0.1546053);
+    c1_n4_3->SetFrameBorderMode(0);
+    c1_n4_3->SetFrameBorderMode(0);
+
+    TH1* cloneHist = (TH1*)h1->Clone("cloneHist");
+    cloneHist->Sumw2();                 // to make a correct uncertainty calculation.
+    if (ratio_or_difference == "ratio") // ratio histogram:
+    {
+        cloneHist->Divide(h1, h2);
+        cloneHist->GetYaxis()->SetTitle("ratio");
+        cloneHist->SetMinimum(0.);
+        cloneHist->SetMaximum(2.);
+    } else // if(ratio_or_difference == "difference"), difference histogram
+    {
+        cloneHist->Add(h1, h2, 1., -1.);
+        cloneHist->GetYaxis()->SetTitle("difference");
+    }
+    cloneHist->SetStats(false);
+    if (fit_with_linear_function) {
+        FitHistogram(cloneHist, xmin_for_fitting, xmax_for_fitting);
+    }
+    cloneHist->Draw("E");
+    c1_n4_3->Modified();
+    c1->cd();
+
+    c1->SaveAs(output_dir + "/" + TString(h1->GetName()) + "." + output_file_type);
+    delete c1;
+    delete c1_n4_1;
+    delete c1_n4_3;
 }
