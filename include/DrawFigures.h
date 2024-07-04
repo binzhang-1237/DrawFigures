@@ -12,6 +12,7 @@
 #include "TH2D.h"
 #include "TLatex.h"
 #include "TLegend.h"
+#include <TLegendEntry.h>
 #include "TPad.h"
 #include "TPaletteAxis.h"
 #include "TString.h"

@@ -201,7 +201,6 @@ void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TStrin
     delete c1;
 }
 
-
 void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
     if (multi_TGraph.size() == 0) {
@@ -279,7 +278,14 @@ void DrawFigures::DrawMultiTGraphErrors(std::vector<TGraphErrors*> multi_TGraphE
             multi_TGraphErrors[i]->Draw("same LP");
         }
     }
-    leg->Draw("same");
+    if (!(leg == nullptr)) {
+        // leg->SetFillColor(0);
+        TLegendEntry* entry = leg->GetEntry();
+        entry->SetFillStyle(1001);
+        entry->SetFillColor(0);
+        leg->Draw("same");
+    }
+
     c1->SaveAs(output_dir + "/" + TString(multi_TGraphErrors[0]->GetName()) + "." + output_file_type);
     delete c1;
 }
