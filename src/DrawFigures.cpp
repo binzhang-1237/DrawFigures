@@ -32,7 +32,7 @@ void DrawFigures::DrawTH1D(TH1D* h1, TString OutputFileName, bool SetLogy)
     delete c1;
 }
 
-void DrawFigures::DrawTH1(TH1* h1, TString output_dir, TString output_file_type)
+void DrawFigures::DrawTH1(TH1* h1, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
     // cout << "h1->Integral() = " << h1->Integral() << endl;
     h1->GetXaxis()->SetLabelSize(0.05);
@@ -46,8 +46,10 @@ void DrawFigures::DrawTH1(TH1* h1, TString output_dir, TString output_file_type)
     h1->SetLineColor(kBlack);
     h1->SetLineWidth(2);
     TCanvas* c1 = new TCanvas();
-    // gPad->SetLogy();
-    // gPad->SetLogx();
+    if (SetLogx)
+        gPad->SetLogx();
+    if (SetLogy)
+        gPad->SetLogy();
     // h1->GetYaxis()->SetMoreLogLabels();
     gStyle->SetStripDecimals(0); // set number of digits of label same.
     Double_t MarginRatio = 0.15;
