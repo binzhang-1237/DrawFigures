@@ -166,7 +166,7 @@ void DrawFigures::DrawTGraphErrors(TGraphErrors* ge, TString output_dir, TString
     delete c1;
 }
 
-void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString output_dir, TString output_file_type)
+void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
 {
     if (multi_TH1.size() == 0) {
         std::cout << "multi_TH1 is empty!" << std::endl;
@@ -182,8 +182,11 @@ void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TStrin
     multi_TH1[0]->GetXaxis()->CenterTitle(true);
     multi_TH1[0]->SetLineWidth(2);
     TCanvas* c1 = new TCanvas();
-    // gPad->SetLogy();
-    // gPad->SetLogx();
+    if (SetLogx)
+        gPad->SetLogx();
+    if (SetLogy)
+        gPad->SetLogy();
+
     // h1->GetYaxis()->SetMoreLogLabels();
     gStyle->SetStripDecimals(0); // set number of digits of label same.
     Double_t MarginRatio = 0.15;
