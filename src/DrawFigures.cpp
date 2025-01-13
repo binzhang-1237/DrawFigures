@@ -201,7 +201,8 @@ void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TStrin
             multi_TH1[i]->Draw("same");
         }
     }
-    leg->Draw("same");
+    if (leg != nullptr)
+        leg->Draw("same");
     c1->SaveAs(output_dir + "/" + TString(multi_TH1[0]->GetName()) + "." + output_file_type);
     delete c1;
 }
