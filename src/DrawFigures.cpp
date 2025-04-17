@@ -207,7 +207,7 @@ void DrawFigures::DrawMultiTH1(std::vector<TH1*> multi_TH1, TLegend* leg, TStrin
     delete c1;
 }
 
-void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy)
+void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* leg, TString output_dir, TString output_file_type, bool SetLogx, bool SetLogy, TString draw_type)
 {
     if (multi_TGraph.size() == 0) {
         std::cout << "multi_TGraph is empty!" << std::endl;
@@ -237,9 +237,9 @@ void DrawFigures::DrawMultiTGraph(std::vector<TGraph*> multi_TGraph, TLegend* le
     for (size_t i = 0; i < multi_TGraph.size(); i++) {
         multi_TGraph[i]->SetMarkerStyle(20 + i);
         if (i == 0) {
-            multi_TGraph[i]->Draw("AL");
+            multi_TGraph[i]->Draw(("A"+draw_type).Data());
         } else {
-            multi_TGraph[i]->Draw("same L");
+            multi_TGraph[i]->Draw(("same "+draw_type).Data());
         }
     }
     leg->Draw("same");
